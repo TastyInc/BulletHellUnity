@@ -16,9 +16,9 @@ TagManager:
   - Projectile
   - Player
   - Boss
-  - 
-  - 
-  - 
+  - Overlay1
+  - Overlay2
+  - Overlay3
   - 
   - 
   - 
@@ -56,6 +56,12 @@ TagManager:
   - name: Projectiles
     uniqueID: 2271167111
     locked: 0
-  - name: Overlay
+  - name: Overlay1
     uniqueID: 42125397
+    locked: 0
+  - name: Overlay2
+    uniqueID: 3706839263
+    locked: 0
+  - name: Overlay3
+    uniqueID: 2482806329
     locked: 0

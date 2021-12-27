@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        moveSpeed = 5f;
+        moveSpeed = 10f;
     }
 
 
@@ -25,6 +25,11 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
     }
