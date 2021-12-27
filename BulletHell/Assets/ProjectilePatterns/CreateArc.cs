@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireProjectile : MonoBehaviour
+public class CreateArc : MonoBehaviour
 {
     [SerializeField]
     private int projAmount = 1;
@@ -29,13 +29,14 @@ public class FireProjectile : MonoBehaviour
             Vector3 projMoveVector = new Vector3(projDirX, projDirY, 0f);
             Vector2 projDir = (projMoveVector - transform.position).normalized;
 
+            Debug.Log(projMoveVector + " " + transform.position + " " + projDir);
+
             GameObject proj = ProjectilePool.ppInstance.GetProjectile();
             proj.transform.position = transform.position;
             //proj.transform.rotation = transform.rotation;
             proj.SetActive(true);
-            proj.GetComponent<OscProjectile>().SetMoveDir(projDir);
+            proj.GetComponent<Projectile>().SetMoveDir(projDir);
 
-            Debug.Log(proj.transform.position.x);
 
             angle += angleStep;
 

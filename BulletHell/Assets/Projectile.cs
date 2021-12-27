@@ -4,28 +4,20 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    protected Vector2 moveDir;
-    protected float moveSpeed;
+    private Vector2 moveDir;
+    private float moveSpeed;
 
     void Start()
     {
-        SetSpeed();
+        moveSpeed = 5f;
     }
 
-    public virtual void SetSpeed()
-    {
-        Debug.LogError("No Speed set");
-    }
 
     void Update()
     {
-        translateProj();
+        transform.Translate(moveDir * moveSpeed * Time.deltaTime);
     }
 
-    public virtual void translateProj()
-    {
-        
-    }
 
     public virtual void SetMoveDir(Vector2 dir)
     {
