@@ -17,6 +17,9 @@ public class CreateSpiral : MonoBehaviour
     void Start()
     {
         InvokeRepeating("Fire", 0f, shootingSpeed);
+
+        gameObject.AddComponent<CreateArc>();
+        //CreateArc ca = new CreateArc();
     }
 
     private void Fire()
@@ -29,9 +32,6 @@ public class CreateSpiral : MonoBehaviour
 
             Vector3 projMoveVector = new Vector3(projDirX, projDirY, 0f);
             Vector2 projDir = (projMoveVector - transform.position).normalized;
-
-
-            Debug.Log(projMoveVector + " " + transform.position + " " + projDir);
 
             GameObject proj = ProjectilePool.ppInstance.GetProjectile();
             proj.transform.position = transform.position;

@@ -29,8 +29,6 @@ public class CreateArc : MonoBehaviour
             Vector3 projMoveVector = new Vector3(projDirX, projDirY, 0f);
             Vector2 projDir = (projMoveVector - transform.position).normalized;
 
-            Debug.Log(projMoveVector + " " + transform.position + " " + projDir);
-
             GameObject proj = ProjectilePool.ppInstance.GetProjectile();
             proj.transform.position = transform.position;
             //proj.transform.rotation = transform.rotation;

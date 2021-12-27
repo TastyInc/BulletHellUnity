@@ -26,6 +26,8 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //int test = collision.gameObject.GetComponent<Bullet>().damage;
+
         gameObject.SetActive(false);
     }
 
