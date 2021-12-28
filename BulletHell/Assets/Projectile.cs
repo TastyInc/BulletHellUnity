@@ -6,6 +6,9 @@ public class Projectile : MonoBehaviour
 {
     private Vector2 moveDir;
     private float moveSpeed;
+    private int projType;
+
+    private OscProj op;
 
     void Start()
     {
@@ -13,21 +16,48 @@ public class Projectile : MonoBehaviour
     }
 
 
-    void Update()
+    private void FixedUpdate()
     {
-        transform.Translate(moveDir * moveSpeed * Time.deltaTime);
+        switch (projType) {
+            case 1:
+                transform.Translate(moveDir * moveSpeed * Time.fixedDeltaTime);
+                break;
+            case 2:
+                transform.Translate(op.GetMoveDir(moveDir) * moveSpeed * Time.fixedDeltaTime);
+                break;
+        }
+
     }
 
+    public void SetProjType(int type) {
+        this.projType = type;
 
-    public virtual void SetMoveDir(Vector2 dir)
+        switch (projType)
+        {
+            case 2:
+                op = new OscProj();
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
+    }
+
+    public void SetMoveDir(Vector2 dir)
     {
-        moveDir = dir;
+        this.moveDir = dir;
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        this.moveSpeed = speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //int test = collision.gameObject.GetComponent<Bullet>().damage;
-
         gameObject.SetActive(false);
     }
 

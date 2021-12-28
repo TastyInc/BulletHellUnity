@@ -16,14 +16,25 @@ public class CreateSpiral : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Fire", 0f, shootingSpeed);
+        //InvokeRepeating("Fire", 0f, shootingSpeed);
 
-        gameObject.AddComponent<CreateArc>();
+        CreateArc ca = new CreateArc();
+        ca.projAmount = 3;
+        ca.projType = 1;
+        ca.Init(1);
+        
+
+        //ca.pro
+
+        
+        //gameObject.AddComponent<CreateArc>();
+        
         //CreateArc ca = new CreateArc();
     }
 
     private void Fire()
     {
+
 
         for (int i = 0; i < spiralAmount + 1; i++)
         {
@@ -33,11 +44,11 @@ public class CreateSpiral : MonoBehaviour
             Vector3 projMoveVector = new Vector3(projDirX, projDirY, 0f);
             Vector2 projDir = (projMoveVector - transform.position).normalized;
 
-            GameObject proj = ProjectilePool.ppInstance.GetProjectile();
-            proj.transform.position = transform.position;
-            //proj.transform.rotation = transform.rotation;
-            proj.SetActive(true);
-            proj.GetComponent<Projectile>().SetMoveDir(projDir);
+            //GameObject proj = ProjectilePool.ppInstance.GetProjectile();
+            //proj.transform.position = transform.position;
+            ////proj.transform.rotation = transform.rotation;
+            //proj.SetActive(true);
+            //proj.GetComponent<Projectile>().SetMoveDir(projDir);
 
             
 

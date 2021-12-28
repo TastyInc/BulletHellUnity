@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class CreateArc : MonoBehaviour
 {
-    [SerializeField]
-    private int projAmount = 1;
-
-
-    [SerializeField]
-    private float startAngle = 90f, endAngle = 270f;
+    public int projAmount = 1;
+    public int projType = 1;
+    public float startAngle = 90f, endAngle = 270f;
 
     private Vector2 projMoveDir;
 
-    void Start()
+    public void Init(int projId)
     {
-        InvokeRepeating("Fire", 0f, 2f);
+        //Fire(projId);
     }
 
-    private void Fire() {
+    void Start()
+    {
+        //InvokeRepeating("Fire", 0f, 2f);
+    }
+
+    private void Fire(int projId) {
         float angleStep = (endAngle - startAngle) / projAmount;
         float angle = startAngle;
 
@@ -29,7 +31,7 @@ public class CreateArc : MonoBehaviour
             Vector3 projMoveVector = new Vector3(projDirX, projDirY, 0f);
             Vector2 projDir = (projMoveVector - transform.position).normalized;
 
-            GameObject proj = ProjectilePool.ppInstance.GetProjectile();
+            GameObject proj = ProjectilePool.ppInstance.GetProjectile(projId);
             proj.transform.position = transform.position;
             //proj.transform.rotation = transform.rotation;
             proj.SetActive(true);
