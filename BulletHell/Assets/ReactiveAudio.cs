@@ -40,7 +40,7 @@ public class ReactiveAudio : MonoBehaviour
 
             main.gravityModifierMultiplier = clipLoudness;
 
-            Debug.Log(clipLoudness);
+            //Debug.Log(clipLoudness);
         }
     }
 }
