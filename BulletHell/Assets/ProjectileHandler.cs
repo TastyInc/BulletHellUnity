@@ -6,29 +6,38 @@ public class ProjectileHandler : MonoBehaviour
 {
     public Material material;
     public Sprite texture;
-
-    private ParticleSpawner spawner;
-
+    public Boss boss;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.AddComponent<ParticleSpawner>();
+        CreateNewParticleSpawner(16, 0.15f, 10, 16, 0.3f, Color.black, 7, 7.5f, 0);
+        CreateNewParticleSpawner(10, 0.2f, 10, 8, 0.5f, Color.black, 7.5f, 36 , 3);
+        CreateNewParticleSpawner(12, 0.48f, 10, 12, 0.6f, new Color(0.1f, 0.1f, 0.1f, 1), 23.5f, 36, 3);
+        CreateNewParticleSpawner(8, 0.48f, 10, 24, 0.4f, Color.black, 38.5f, 51, 3);
+    }
 
-        spawner = gameObject.GetComponent<ParticleSpawner>(); //= new ParticleSpawner();
+    bool CreateNewParticleSpawner(float speed, float firerate, float lifetime, int numberOfCols, float size, Color col, float delay, float end, float destroyDelay) {
 
-        spawner.speed = 10;
-        spawner.firerate = 0.2f;
-        spawner.lifetime = 10;
-        spawner.numberCols = 8;
-        spawner.size = 0.5f;
+        GameObject go = new GameObject("Particle Spawner");
+        go.transform.parent = gameObject.transform;
+        go.transform.localPosition = gameObject.transform.localPosition;
+        ParticleSpawner spawner = go.AddComponent<ParticleSpawner>();
+        
+        spawner.speed = speed;
+        spawner.firerate = firerate;
+        spawner.lifetime = lifetime;
+        spawner.numberCols = numberOfCols;
+        spawner.size = size;
         spawner.material = material;
-        spawner.transform = this.transform;
+        spawner.bossTransform = boss.transform;
         spawner.texture = texture;
-        spawner.color = new Color(0, 0, 0, 1);
+        spawner.color = col;
+        spawner.endEmittingTime = end - delay;
 
-        spawner.Invoke("Summon", 7);
+        spawner.Invoke("Summon", delay);
 
+        return true;
     }
 
 

@@ -32,7 +32,7 @@ public class AudioPlayer : MonoBehaviour
             audioSource.volume = 0.5f;
         }
 
-        if (audioSource.isPlaying) {
+        if (!audioSource.isPlaying) {
             audioSource.Play();
         }
 
@@ -65,9 +65,9 @@ public class AudioPlayer : MonoBehaviour
                 shade = 0;
             }
             else {
-                shade = Mathf.Clamp(clipLoudness, 0, 1) / 2;
+                shade = Mathf.Clamp(clipLoudness, 0, 0.5f) / 3;
 
-                if (clipLoudness > 0.3f) {
+                if (clipLoudness > 0.35f) {
                     shakeAmount = clipLoudness / 2;
                     InvokeRepeating("DoShake", 0, 0.01f);
                     Invoke("StopShake", updateStep);

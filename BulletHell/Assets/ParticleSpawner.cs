@@ -8,12 +8,13 @@ public class ParticleSpawner : MonoBehaviour
     public float speed;
     public Sprite texture;
     public Color color;
-    public float lifetime;
+    public float lifetime = 10;
     public float firerate;
     public float size;
     public Material material;
-
-    public Transform transform;
+    public float endEmittingTime;
+    public float destroyDelay = 2;
+    public Transform bossTransform;
 
     private float angle;
     private float bossRotation;
@@ -36,10 +37,10 @@ public class ParticleSpawner : MonoBehaviour
 
             // Create a green Particle System.
             var go = new GameObject("Particle System");
-            go.transform.Rotate(angle * i, 90, 0); // Rotate so the system emits upwards.
             go.transform.parent = transform;
+            go.transform.Rotate(angle * i, 90, 0); // Rotate so the system emits upwards.
             go.transform.localScale = new Vector3(1, 1, 1);
-            go.transform.position = transform.position;
+            go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
             
             system = go.AddComponent<ParticleSystem>();
 
@@ -83,16 +84,31 @@ public class ParticleSpawner : MonoBehaviour
             text.AddSprite(texture);
         }
 
-        InvokeRepeating("DoEmit", 0.1f, firerate);
+        InvokeRepeating("DoEmit", 0, firerate);
+        Invoke("StopEmitting", endEmittingTime);
+        Invoke("DestroyItself", endEmittingTime + destroyDelay);
 
         return true;
+    }
 
-        //CancelInvoke("");
+    private void Update()
+    {
+        transform.position = bossTransform.position;
+        transform.rotation = bossTransform.rotation;
+    }
+
+    void StopEmitting() {
+        CancelInvoke("DoEmit");
+    }
+
+    void DestroyItself()
+    {
+        Destroy(gameObject);
     }
 
     void DoEmit()
     {
-        foreach (Transform child in transform) {
+        foreach (Transform child in this.transform) {
             system = child.GetComponent<ParticleSystem>();
 
             // Any parameters we assign in emitParams will override the current system's when we call Emit.

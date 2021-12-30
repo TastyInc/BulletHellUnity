@@ -23,6 +23,7 @@ public class MenuAudio : MonoBehaviour
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.volume = volumeSlider.value;
+        GameMaster.GM.volume = volumeSlider.value;
 
         clipSampleData = new float[sampleDataLength];
     }
