@@ -17,12 +17,24 @@ public class AudioPlayer : MonoBehaviour
     private Vector3 idleCameraPos;
 
     public Camera mainCam;
+    public Transform boss;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
-        //audioSource.volume = volumeSlider.value;
+
+        if (GameMaster.GM != null)
+        {
+            audioSource.volume = GameMaster.GM.volume;
+        }
+        else {
+            audioSource.volume = 0.5f;
+        }
+
+        if (audioSource.isPlaying) {
+            audioSource.Play();
+        }
 
         clipSampleData = new float[sampleDataLength];
 
@@ -62,11 +74,11 @@ public class AudioPlayer : MonoBehaviour
                 }
             }
 
-
-            Color col = new Color(shade, shade, shade);
-
+            Color col = new Color(shade, shade, shade, 0);
             mainCam.backgroundColor = col;
 
+            float bossScale = 1 + clipLoudness * 2;
+            boss.localScale = new Vector2(bossScale, bossScale);
 
             //Mathf.clamp(mid top)
 

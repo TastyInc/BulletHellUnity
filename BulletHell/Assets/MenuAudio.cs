@@ -62,6 +62,7 @@ public class MenuAudio : MonoBehaviour
 
     public void VolumeChanged() {
         audioSource.volume = volumeSlider.value;
+        GameMaster.GM.volume = volumeSlider.value;
     }
 
     void InitializeParticleSystemIfNeeded()

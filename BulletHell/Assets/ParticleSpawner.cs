@@ -13,19 +13,22 @@ public class ParticleSpawner : MonoBehaviour
     public float size;
     public Material material;
 
+    public Transform transform;
+
     private float angle;
     private float bossRotation;
     private ParticleSystem system;
 
-    private void Awake()
+    private void Start()
     {
-        Summon();
+
     }
 
-    void Summon()
-    {
-        angle = 360f / numberCols;
 
+    public bool Summon()
+    {
+
+        angle = 360f / numberCols;
 
         for (int i = 0; i < numberCols; i++) {
             // A simple particle material with no texture.
@@ -34,8 +37,9 @@ public class ParticleSpawner : MonoBehaviour
             // Create a green Particle System.
             var go = new GameObject("Particle System");
             go.transform.Rotate(angle * i, 90, 0); // Rotate so the system emits upwards.
-            go.transform.parent = this.transform;
-            go.transform.position = this.transform.position;
+            go.transform.parent = transform;
+            go.transform.localScale = new Vector3(1, 1, 1);
+            go.transform.position = transform.position;
             
             system = go.AddComponent<ParticleSystem>();
 
@@ -44,6 +48,7 @@ public class ParticleSpawner : MonoBehaviour
             renderer.renderMode = ParticleSystemRenderMode.Stretch; //Nötig für Direction align 
             renderer.cameraVelocityScale = 0;
             renderer.lengthScale = 1; //Nötig für Direction align 
+            //renderer.sortingLayerName = "Projectile";
 
             var mainModule = system.main;
             mainModule.startColor = color;
@@ -77,16 +82,18 @@ public class ParticleSpawner : MonoBehaviour
             text.enabled = true;
             text.AddSprite(texture);
         }
-        // Every 2 secs we will emit.
-        InvokeRepeating("DoEmit", 1.0f, firerate);
+
+        InvokeRepeating("DoEmit", 0.1f, firerate);
+
+        return true;
+
+        //CancelInvoke("");
     }
 
     void DoEmit()
     {
-
         foreach (Transform child in transform) {
             system = child.GetComponent<ParticleSystem>();
-
 
             // Any parameters we assign in emitParams will override the current system's when we call Emit.
             // Here we will override the start color and size.

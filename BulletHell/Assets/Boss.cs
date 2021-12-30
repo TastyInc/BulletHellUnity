@@ -8,10 +8,8 @@ public class Boss : MonoBehaviour
 
     public HealthBar healthBar;
 
-
     private int currentHp;
     private Rigidbody2D rb;
-
 
     // Start is called before the first frame update
     void Start()
