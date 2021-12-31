@@ -16,6 +16,8 @@ public class ParticleSpawner : MonoBehaviour
     public float destroyDelay = 2;
     public Transform bossTransform;
 
+    public bool followBoss = true, rotateWithBoss = true;
+
     private float angle;
     private float bossRotation;
     private ParticleSystem system;
@@ -93,8 +95,21 @@ public class ParticleSpawner : MonoBehaviour
 
     private void Update()
     {
-        transform.position = bossTransform.position;
-        transform.rotation = bossTransform.rotation;
+        if (followBoss)
+        {
+            transform.position = bossTransform.position;
+        }
+        else { 
+            
+        }
+
+        if (rotateWithBoss)
+        {
+            transform.rotation = bossTransform.rotation;
+        }
+        else { 
+            
+        }
     }
 
     void StopEmitting() {

@@ -10,6 +10,8 @@ public class Boss : MonoBehaviour
 
     private int currentHp;
     private Rigidbody2D rb;
+    private Vector2 movement = new Vector2(0,0);
+    private float rotation = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,14 +20,24 @@ public class Boss : MonoBehaviour
         healthBar.SetMaxHealth(maxHp);
 
         rb = gameObject.GetComponent<Rigidbody2D>();
+
+        FunctionTimer.Create(() => NewMovement(new Vector2(0, -1.5f), 1), 0);
+        FunctionTimer.Create(() => NewMovement(new Vector2(0, 0), 8), 7);
+        FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), 1), 7.5f);
+        FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), -1.2f), 23.5f);
+        FunctionTimer.Create(() => NewMovement(new Vector2(-3.5f, -0.5f), 1), 38.5f);
+    }
+
+    void NewMovement(Vector2 mov, float rotate) {
+        movement = mov;
+        rotation = rotate;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 movement = new Vector2(0.5f, 0);
-        //rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation + 1);
+        rb.MovePosition(rb.position + movement * Time.deltaTime);
+        rb.MoveRotation(rb.rotation + rotation);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
