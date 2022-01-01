@@ -37,6 +37,14 @@ public class PauseMenu : MonoBehaviour
         audio.Play();
     }
 
+    public void Reload()
+    {
+        pauseMenuUI.SetActive(false);
+
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+    }
+
     void Pause() {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;

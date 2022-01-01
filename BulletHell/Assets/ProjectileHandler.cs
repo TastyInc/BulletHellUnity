@@ -11,13 +11,23 @@ public class ProjectileHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateNewParticleSpawner(16, 0.15f, 10, 16, 0.3f, Color.black, 7, 7.5f, 0);
-        CreateNewParticleSpawner(10, 0.2f, 10, 8, 0.5f, Color.black, 7.5f, 36 , 3);
-        CreateNewParticleSpawner(8, 0.48f, 10, 12, 0.6f, new Color(0.5f, 0.5f, 0.5f, 0.3f), 23.5f, 36, 3, false);
-        CreateNewParticleSpawner(8, 0.48f, 10, 24, 0.4f, Color.black, 38.5f, 51, 3);
+
+        CreateNewParticleSpawner(16, 0.1f, 10, 16, 0.3f, new Color(0.7f, 0.7f, 0.7f), 7.2f, 7.7f, 0, 300);
+        CreateNewParticleSpawner(10, 0.2f, 10, 9, 0.5f, new Color(0.3f, 0.3f, 0.3f), 7.5f, 36.5f , 5, 60);
+        CreateNewParticleSpawner(8, 0.48f, 10, 12, 0.6f, new Color(0.5f, 0.5f, 0.5f, 0.3f), 23.5f, 36.5f, 5, -25);
+        CreateNewParticleSpawner(6, 0.48f, 10, 30, 0.4f, Color.black, 38.5f, 51, 3, 120);
+
+        CreateNewParticleSpawner(12, 0.2f, 10, 6, 0.3f, new Color(0.5f, 0.5f, 0.5f), 54, 67, 5, 120);
+        CreateNewParticleSpawner(6, 0.5f, 30, 7, 0.8f, new Color(0.3f, 0.3f, 0.3f), 53, 64, 10, 90, false, new Vector2(6, 16));
+
+        CreateNewParticleSpawner(16, 0.48f, 10, 18, 0.4f, new Color(0.4f, 0.4f, 0.4f), 69, 100, 5, 25);
+        CreateNewParticleSpawner(14, 0.24f, 10, 15, 0.5f, new Color(0.5f, 0.5f, 0.5f), 69, 100, 5, 45);
+
+        CreateNewParticleSpawner(13, 0.24f, 10, 14, 0.4f, Color.black, 100, 117, 5, 30);
+        CreateNewParticleSpawner(13, 0.24f, 10, 14, 0.4f, Color.black, 100, 117, 5, -30);
     }
 
-    bool CreateNewParticleSpawner(float speed, float firerate, float lifetime, int numberOfCols, float size, Color col, float delay, float end, float destroyDelay, bool bossRot = true, bool bossPos = true) {
+    bool CreateNewParticleSpawner(float speed, float firerate, float lifetime, int numberOfCols, float size, Color col, float delay, float end, float destroyDelay, float rotation = 0, bool bossPos = true, Vector2 pos = new Vector2()) {
 
         GameObject go = new GameObject("Particle Spawner");
         go.transform.parent = gameObject.transform;
@@ -34,8 +44,9 @@ public class ProjectileHandler : MonoBehaviour
         spawner.texture = texture;
         spawner.color = col;
         spawner.followBoss = bossPos;
-        spawner.rotateWithBoss = bossRot;
+        spawner.rotation = rotation;
         spawner.endEmittingTime = end - delay;
+        spawner.pos = pos;
 
         spawner.Invoke("Summon", delay);
 

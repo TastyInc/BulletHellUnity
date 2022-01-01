@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public int maxHealth = 3;
     public float hpRegen = 5;
+    public ParticleSystem damageParticles = null;
+
 
     private int health;
 
@@ -30,8 +32,10 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("CAKJSF LKASF");
-        TakeDamage();
+        //TODO Checken was genau, hier kommt auch rand, sollte nichts machen :/
+
+        //Debug.Log("CAKJSF LKASF");
+        //TakeDamage();
     }
 
     void ReplenishHealthOverTime() {
@@ -42,6 +46,10 @@ public class Player : MonoBehaviour
 
     void TakeDamage()
     {
+        if (damageParticles != null) {
+            damageParticles.Play();
+        }
+        
         health--;
 
         if (health <= 0) { 

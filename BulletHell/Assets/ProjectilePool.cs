@@ -11,10 +11,7 @@ public class ProjectilePool : MonoBehaviour
     public enum ProjectileTypes
     {
         Normal = 0,
-        Lingering = 1,
-        Homing = 2,
-        Oscillating = 3,
-        Rotating = 4
+        Bullet = 1
     }
 
     [SerializeField]
@@ -33,6 +30,11 @@ public class ProjectilePool : MonoBehaviour
     {
         pTypeCount = Enum.GetNames(typeof(ProjectileTypes)).Length;
         pool = new List<GameObject>[pTypeCount];
+
+        for(int i = 0; i < pool.Count(); i++) {
+            pool[i] = new List<GameObject>();
+        }
+
     }
 
     public GameObject GetProjectile(int id)

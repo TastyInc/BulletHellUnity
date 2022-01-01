@@ -15,8 +15,10 @@ public class ParticleSpawner : MonoBehaviour
     public float endEmittingTime;
     public float destroyDelay = 2;
     public Transform bossTransform;
+    public Vector2 pos;
 
-    public bool followBoss = true, rotateWithBoss = true;
+    public bool followBoss = true;
+    public float rotation = 0;
 
     private float angle;
     private float bossRotation;
@@ -24,6 +26,10 @@ public class ParticleSpawner : MonoBehaviour
 
     private void Start()
     {
+        if (pos.x != 0 || pos.y != 0)
+        {
+            transform.position = pos;
+        }
 
     }
 
@@ -39,11 +45,13 @@ public class ParticleSpawner : MonoBehaviour
 
             // Create a green Particle System.
             var go = new GameObject("Particle System");
+            go.layer = 8;
             go.transform.parent = transform;
             go.transform.Rotate(angle * i, 90, 0); // Rotate so the system emits upwards.
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
-            
+
+
             system = go.AddComponent<ParticleSystem>();
 
             var renderer = go.GetComponent<ParticleSystemRenderer>();
@@ -51,7 +59,8 @@ public class ParticleSpawner : MonoBehaviour
             renderer.renderMode = ParticleSystemRenderMode.Stretch; //Nötig für Direction align 
             renderer.cameraVelocityScale = 0;
             renderer.lengthScale = 1; //Nötig für Direction align 
-            //renderer.sortingLayerName = "Projectile";
+            renderer.sortingLayerID = LayerMask.NameToLayer("Projectile");
+            renderer.sortingLayerName = "Projectile";
 
             var mainModule = system.main;
             mainModule.startColor = color;
@@ -78,7 +87,7 @@ public class ParticleSpawner : MonoBehaviour
             collision.enableDynamicColliders = true;
             collision.type = ParticleSystemCollisionType.World;
             collision.mode = ParticleSystemCollisionMode.Collision2D;
-            collision.lifetimeLoss = 20;
+            collision.lifetimeLoss = 50;
 
             var text = system.textureSheetAnimation;
             text.mode = ParticleSystemAnimationMode.Sprites;
@@ -99,16 +108,10 @@ public class ParticleSpawner : MonoBehaviour
         {
             transform.position = bossTransform.position;
         }
-        else { 
-            
-        }
 
-        if (rotateWithBoss)
+        if (rotation != 0)
         {
-            transform.rotation = bossTransform.rotation;
-        }
-        else { 
-            
+            transform.Rotate(0, 0, rotation * Time.deltaTime);
         }
     }
 
