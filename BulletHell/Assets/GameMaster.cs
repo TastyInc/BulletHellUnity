@@ -6,9 +6,8 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster GM;
 
-    public GameObject musicPlayer;
-
-    public float volume;
+    public float volume = 0.3f;
+    public bool isPlayerAlive = true;
 
     void Awake()
     {

@@ -22,7 +22,7 @@ public class Shooting : MonoBehaviour
         bullet.transform.rotation = transform.rotation;
         bullet.SetActive(true);
 
-        Debug.Log(bullet.transform.position);
+        //Debug.Log(bullet.transform.position);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(transform.up * bulletForce, ForceMode2D.Impulse);

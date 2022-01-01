@@ -18,7 +18,6 @@ public class FunctionTimer
     public static FunctionTimer Create(UnityAction action, float timer, string timerName = null) {
         initIfNeeded();
 
-
         GameObject go = new GameObject("FunctionTimer", typeof(MonoBehav));
 
         FunctionTimer functionTimer = new FunctionTimer(action, timer, timerName, go);

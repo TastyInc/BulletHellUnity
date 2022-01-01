@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool isGamePaused = false;
     public GameObject pauseMenuUI;
+    public GameObject deathMenuUI;
     public AudioSource audio;
 
     private void Start()
@@ -26,7 +27,10 @@ public class PauseMenu : MonoBehaviour
             else {
                 Pause();
             }
-        
+        }
+
+        if (!GameMaster.GM.isPlayerAlive) {
+            PlayerDied();
         }
     }
 
@@ -47,6 +51,14 @@ public class PauseMenu : MonoBehaviour
 
     void Pause() {
         pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        isGamePaused = true;
+        audio.Pause();
+    }
+
+    void PlayerDied()
+    {
+        deathMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isGamePaused = true;
         audio.Pause();
