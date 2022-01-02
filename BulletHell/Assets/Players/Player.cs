@@ -119,12 +119,9 @@ public class Player : MonoBehaviour
         Time.timeScale = 0.3f;
 
         Camera.main.orthographicSize /= 2;
-        FunctionTimer.Create(() => PlayerDied(), 1);
-
+        GameMaster.GM.isPlayerAlive = false;
     }
 
     void PlayerDied() {
-        GameMaster.GM.isPlayerAlive = false;
-        Camera.main.orthographicSize *= 2;
     }
 }

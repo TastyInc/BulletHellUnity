@@ -29,8 +29,9 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
-        if (!GameMaster.GM.isPlayerAlive) {
-            PlayerDied();
+        if (!GameMaster.GM.isPlayerAlive)
+        {
+            FunctionTimer.Create(() => PlayerDied(), 1);
         }
     }
 
@@ -59,6 +60,7 @@ public class PauseMenu : MonoBehaviour
     void PlayerDied()
     {
         deathMenuUI.SetActive(true);
+        Camera.main.orthographicSize *= 2;
         Time.timeScale = 0f;
         isGamePaused = true;
         audio.Pause();

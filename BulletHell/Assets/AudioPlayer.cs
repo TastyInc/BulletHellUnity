@@ -42,7 +42,7 @@ public class AudioPlayer : MonoBehaviour
 
         idleCameraPos = mainCam.transform.position;
 
-        LoadLevelLogic.LL.LoadAudioEffects(LoadLevelLogic.levels.Barge);
+        //LoadLevelLogic.LL.LoadAudioEffects(LoadLevelLogic.levels.Barge);
     }
 
     // Update is called once per frame
