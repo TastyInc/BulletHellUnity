@@ -17,6 +17,8 @@ public class ParticleSpawner : MonoBehaviour
     public Transform bossTransform;
     public Vector2 pos;
 
+    public ParticleSystem psPrefab;
+
     public bool followBoss = true;
     public float rotation = 0;
 
@@ -54,13 +56,14 @@ public class ParticleSpawner : MonoBehaviour
 
             system = go.AddComponent<ParticleSystem>();
 
+            var prefabRenderer = psPrefab.GetComponent<ParticleSystemRenderer>();
             var renderer = go.GetComponent<ParticleSystemRenderer>();
+
             renderer.material = particleMaterial;
             renderer.renderMode = ParticleSystemRenderMode.Stretch; //Nötig für Direction align 
             renderer.cameraVelocityScale = 0;
             renderer.lengthScale = 1; //Nötig für Direction align 
-            renderer.sortingLayerID = LayerMask.NameToLayer("Projectile");
-            renderer.sortingLayerName = "Projectile";
+            renderer.sortingLayerID = prefabRenderer.sortingLayerID;
 
             var mainModule = system.main;
             mainModule.startColor = color;

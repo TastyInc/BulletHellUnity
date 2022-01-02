@@ -14,10 +14,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
 
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (GameMaster.GM.isPlayerAlive)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
     }
 
     private void FixedUpdate()

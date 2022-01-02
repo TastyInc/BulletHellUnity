@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 
     void TakeDamage()
     {
-        if (invisFramesCD <= 0) {
+        if (invisFramesCD <= 0 && GameMaster.GM.isPlayerAlive && !GameMaster.GM.debugMode) {
             neverTookDmg = false;
 
             if (damageParticles != null)
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
             currentHP--;
 
             if (currentHP <= 0) {
-                GameMaster.GM.isPlayerAlive = false;
+                PlayerDeath();
             }
 
             hpReplenishCD = hpRegen;
@@ -112,5 +112,19 @@ public class Player : MonoBehaviour
         {
             ps.color = new Color(ps.color.r, ps.color.g, ps.color.b, 1);
         }
+    }
+
+    void PlayerDeath()
+    {
+        Time.timeScale = 0.3f;
+
+        Camera.main.orthographicSize /= 2;
+        FunctionTimer.Create(() => PlayerDied(), 1);
+
+    }
+
+    void PlayerDied() {
+        GameMaster.GM.isPlayerAlive = false;
+        Camera.main.orthographicSize *= 2;
     }
 }

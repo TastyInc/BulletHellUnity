@@ -47,14 +47,14 @@ TagManager:
   - name: Player
     uniqueID: 3402152825
     locked: 0
-  - name: Boss
-    uniqueID: 25665111
-    locked: 0
   - name: Bullets
     uniqueID: 111489743
     locked: 0
   - name: Projectiles
     uniqueID: 2271167111
+    locked: 0
+  - name: Boss
+    uniqueID: 25665111
     locked: 0
   - name: Overlay1
     uniqueID: 42125397

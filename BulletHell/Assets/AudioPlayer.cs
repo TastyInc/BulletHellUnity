@@ -18,6 +18,7 @@ public class AudioPlayer : MonoBehaviour
 
     public Camera mainCam;
     public Transform boss;
+    public GameObject bgImage; 
 
     // Start is called before the first frame update
     void Awake()
@@ -36,9 +37,12 @@ public class AudioPlayer : MonoBehaviour
             audioSource.Play();
         }
 
+
         clipSampleData = new float[sampleDataLength];
 
         idleCameraPos = mainCam.transform.position;
+
+        LoadLevelLogic.LL.LoadAudioEffects(LoadLevelLogic.levels.Barge);
     }
 
     // Update is called once per frame
@@ -74,8 +78,8 @@ public class AudioPlayer : MonoBehaviour
                 }
             }
 
-            Color col = new Color(shade, shade, shade, 0);
-            mainCam.backgroundColor = col;
+            Color col = new Color(shade, shade, shade, 1);
+            bgImage.GetComponent<SpriteRenderer>().color = col;
 
             float bossScale = 1 + clipLoudness * 2;
             boss.localScale = new Vector2(bossScale, bossScale);
