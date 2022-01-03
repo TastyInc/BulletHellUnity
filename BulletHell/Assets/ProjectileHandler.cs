@@ -13,6 +13,9 @@ public class ProjectileHandler : MonoBehaviour
     void Start()
     {
 
+
+        //CreateNewParticleSpawner(10, 0.5f, 10, 32, 0.3f, new Color(0.7f, 0.7f, 0.7f), 0, 30, 1, 20);
+
         CreateNewParticleSpawner(16, 0.1f, 10, 16, 0.3f, new Color(0.7f, 0.7f, 0.7f), 7.2f, 7.7f, 1, 300);
         CreateNewParticleSpawner(10, 0.2f, 10, 9, 0.5f, new Color(0.3f, 0.3f, 0.3f), 7.5f, 36.5f , 5, 60);
         CreateNewParticleSpawner(8, 0.48f, 10, 12, 0.6f, new Color(0.5f, 0.5f, 0.5f, 0.3f), 23.5f, 36.5f, 5, -25);

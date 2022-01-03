@@ -53,7 +53,6 @@ public class ParticleSpawner : MonoBehaviour
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
 
-
             system = go.AddComponent<ParticleSystem>();
 
             var prefabRenderer = psPrefab.GetComponent<ParticleSystemRenderer>();
@@ -65,16 +64,28 @@ public class ParticleSpawner : MonoBehaviour
             renderer.lengthScale = 1; //Nötig für Direction align 
             renderer.sortingLayerID = prefabRenderer.sortingLayerID;
 
+            //var mainn = ProjectilePreset.GetProjectilePreset(color, size, speed, 10000);
+
             var mainModule = system.main;
+
             mainModule.startColor = color;
             mainModule.startSize = size;
             mainModule.startSpeed = speed;
+            mainModule.startLifetime = lifetime;
             mainModule.maxParticles = 10000;
+            //Local ermöglicht rotation und sinus scheiss und return mit forceoverlifetime aber macht auch, dass das partikelsistem dem boss folgt oder dem emitterr...
             mainModule.simulationSpace = ParticleSystemSimulationSpace.World;
 
             var emission = system.emission;
             emission.enabled = false;
-            
+
+            //Macht das Partikel zurück kommen...
+            //var fol = system.forceOverLifetime;
+            //fol.enabled = true;
+            //fol.space = ParticleSystemSimulationSpace.World;
+            //fol.x = Mathf.Cos(angle) * (speed / lifetime) * (-2);
+            //fol.y = Mathf.Sin(angle) * (speed / lifetime) * (-2);
+
             var shape = system.shape;
             shape.enabled = false;
             shape.shapeType = ParticleSystemShapeType.Sprite;
@@ -131,6 +142,7 @@ public class ParticleSpawner : MonoBehaviour
     {
         foreach (Transform child in this.transform) {
             system = child.GetComponent<ParticleSystem>();
+
 
             // Any parameters we assign in emitParams will override the current system's when we call Emit.
             // Here we will override the start color and size.
