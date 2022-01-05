@@ -12,8 +12,6 @@ public class ProjectileHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         //CreateNewParticleSpawner(10, 0.5f, 10, 32, 0.3f, new Color(0.7f, 0.7f, 0.7f), 0, 30, 1, 20);
 
         CreateNewParticleSpawner(16, 0.1f, 10, 16, 0.3f, new Color(0.7f, 0.7f, 0.7f), 7.2f, 7.7f, 1, 300);
