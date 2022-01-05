@@ -29,6 +29,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
+
         if (!GameMaster.GM.isPlayerAlive)
         {
             FunctionTimer.Create(() => PlayerDied(), 1);

@@ -42,6 +42,7 @@ public class Boss : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * Time.deltaTime);
         rb.MoveRotation(rb.rotation + rotation);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
