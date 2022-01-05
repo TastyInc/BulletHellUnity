@@ -6,12 +6,14 @@ public class Boss : MonoBehaviour
 {
     public int maxHp = 400;
 
-    public HealthBar healthBar;
+    public BossHealthBar healthBar;
 
     private int currentHp;
     private Rigidbody2D rb;
     private Vector2 movement = new Vector2(0,0);
     private float rotation = 0;
+
+    private BossAIs ai;
 
     // Start is called before the first frame update
     void Start()
@@ -21,20 +23,34 @@ public class Boss : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody2D>();
 
-        FunctionTimer.Create(() => NewMovement(new Vector2(0, -1.5f), 1), 0);
-        FunctionTimer.Create(() => NewMovement(new Vector2(0, 0), 7.7f), 7.2f);
-        FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), 1), 7.5f);
-        FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), -1.2f), 23.5f);
-        FunctionTimer.Create(() => NewMovement(new Vector2(-3.5f, -0.5f), 1), 38.5f);
+        ai = new BossAIs();
+        ai.Setup(this);
 
-        FunctionTimer.Create(() => NewMovement(new Vector2(0, -4f), 2), 68.5f);
-        FunctionTimer.Create(() => NewMovement(new Vector2(5f, 0), 3), 80);
-        FunctionTimer.Create(() => NewMovement(new Vector2(1f, 3f), 3), 100);
+
+        //FunctionTimer.Create(() => NewMovement(new Vector2(0, -1.5f), 1), 0);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(0, 0), 7.7f), 7.2f);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), 1), 7.5f);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(1.5f, -0.5f), -1.2f), 23.5f);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(-3.5f, -0.5f), 1), 38.5f);
+        //
+        //FunctionTimer.Create(() => NewMovement(new Vector2(0, -4f), 2), 68.5f);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(5f, 0), 3), 80);
+        //FunctionTimer.Create(() => NewMovement(new Vector2(1f, 3f), 3), 100);
     }
 
-    void NewMovement(Vector2 mov, float rotate) {
+    public void NewMovementAndRotation(Vector2 mov, float rotate) {
         movement = mov;
         rotation = rotate;
+    }
+
+    public void NewRotation(float rotate)
+    {
+        rotation = rotate;
+    }
+
+    public void NewMovement(Vector2 mov)
+    {
+        movement = mov;
     }
 
     // Update is called once per frame

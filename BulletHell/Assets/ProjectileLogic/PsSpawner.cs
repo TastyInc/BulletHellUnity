@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleSpawner : MonoBehaviour
+public class PsSpawner : MonoBehaviour
 {
     public int numberCols;
     public float speed;

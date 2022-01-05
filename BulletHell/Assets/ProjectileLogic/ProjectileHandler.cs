@@ -9,12 +9,14 @@ public class ProjectileHandler : MonoBehaviour
     public Boss boss;
     public ParticleSystem psPrefab;
 
+    private PsBuilder builder;
+
     // Start is called before the first frame update
     void Start()
     {
         //CreateNewParticleSpawner(10, 0.5f, 10, 32, 0.3f, new Color(0.7f, 0.7f, 0.7f), 0, 30, 1, 20);
 
-        CreateNewParticleSpawner(16, 0.1f, 10, 16, 0.3f, new Color(0.7f, 0.7f, 0.7f), 7.2f, 7.7f, 1, 300);
+        CreateNewParticleSpawner(16, 0.1f, 10, 16, 0.3f, GameCol.Grey7, 7.2f, 7.7f, 1, 300);
         CreateNewParticleSpawner(10, 0.2f, 10, 9, 0.5f, new Color(0.3f, 0.3f, 0.3f), 7.5f, 36.5f , 5, 60);
         CreateNewParticleSpawner(8, 0.48f, 10, 12, 0.6f, new Color(0.5f, 0.5f, 0.5f, 0.3f), 23.5f, 36.5f, 5, -25);
         CreateNewParticleSpawner(6, 0.48f, 10, 30, 0.4f, Color.black, 38.5f, 51, 3, 120);
@@ -29,12 +31,16 @@ public class ProjectileHandler : MonoBehaviour
         CreateNewParticleSpawner(12, 0.24f, 10, 8, 0.4f, Color.black, 100, 117, 5, -40);
     }
 
+    public void HandleProjectiles_Barge() { 
+        
+    }
+
     bool CreateNewParticleSpawner(float speed, float firerate, float lifetime, int numberOfCols, float size, Color col, float delay, float end, float destroyDelay, float rotation = 0, bool bossPos = true, Vector2 pos = new Vector2()) {
 
         GameObject go = new GameObject("Particle Spawner");
         go.transform.parent = gameObject.transform;
         go.transform.localPosition = gameObject.transform.localPosition;
-        ParticleSpawner spawner = go.AddComponent<ParticleSpawner>();
+        PsSpawner spawner = go.AddComponent<PsSpawner>();
         
         spawner.speed = speed;
         spawner.firerate = firerate;
