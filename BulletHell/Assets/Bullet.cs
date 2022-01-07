@@ -6,20 +6,24 @@ public class Bullet : MonoBehaviour
 {
     public int damage = 5;
 
-    public float initTime;
+    private Vector2 initPos;
 
     void Start()
     {
-        initTime = Time.timeSinceLevelLoad;
+        initPos = gameObject.transform.position;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        gameObject.transform.position = initPos;
         gameObject.SetActive(false);
     }
 
     private void Update()
     {
+
+        Debug.Log(gameObject.transform.position.x);
+
         //float timeAlive = Time.timeSinceLevelLoad - initTime;
 
         //if (timeAlive > 0.5f && !gameObject.GetComponent<Renderer>().isVisible)

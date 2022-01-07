@@ -18,12 +18,13 @@ public class PsSpawner : MonoBehaviour
 
     private ParticleSystem system;
 
-
-
     private void Start()
     {
-
-
+        if (psSetup.bossPos) {
+            transform.position = bossTransform.position;
+        } else {
+            transform.position = psSetup.pos;
+        }
     }
 
 
@@ -144,6 +145,8 @@ public class PsSpawner : MonoBehaviour
             // Any parameters we assign in emitParams will override the current system's when we call Emit.
             // Here we will override the start color and size.
             var emitParams = new ParticleSystem.EmitParams();
+
+            Debug.Log(system.transform.position.y);
 
             emitParams.rotation = prSetup.rotation;
             emitParams.startColor = prSetup.col;

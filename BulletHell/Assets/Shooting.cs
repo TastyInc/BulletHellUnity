@@ -25,6 +25,8 @@ public class Shooting : MonoBehaviour
         //Debug.Log(bullet.transform.position);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.position = transform.position;
         rb.AddForce(transform.up * bulletForce, ForceMode2D.Impulse);
         rb.mass = 0f; // schiebt den scheiss sonst weg
 
