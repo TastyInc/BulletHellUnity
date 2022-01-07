@@ -4,44 +4,37 @@ using UnityEngine;
 
 public class PsSpawner : MonoBehaviour
 {
-    public int numberCols;
-    public float speed;
+
+
+
+    public ProjSetup prSetup;
+    public PsSetup psSetup;
+
     public Sprite texture;
-    public Color color;
-    public float lifetime = 10;
-    public float firerate;
-    public float size;
     public Material material;
-    public float endEmittingTime;
-    public float destroyDelay = 2;
     public Transform bossTransform;
-    public Vector2 pos;
 
     public ParticleSystem psPrefab;
 
-    public bool followBoss = true;
-    public float rotation = 0;
-
-    private float angle;
-    private float bossRotation;
     private ParticleSystem system;
+
+
 
     private void Start()
     {
-        if (pos.x != 0 || pos.y != 0)
-        {
-            transform.position = pos;
-        }
+
 
     }
 
 
     public bool Summon()
     {
+        if (psSetup.pos.x != 0 || psSetup.pos.y != 0)
+        {
+            transform.position = psSetup.pos;
+        }
 
-        angle = 360f / numberCols;
-
-        for (int i = 0; i < numberCols; i++) {
+        for (int i = 0; i < psSetup.numberOfCols; i++) {
             // A simple particle material with no texture.
             Material particleMaterial = material;
 
@@ -49,7 +42,7 @@ public class PsSpawner : MonoBehaviour
             var go = new GameObject("Particle System");
             go.layer = 8;
             go.transform.parent = transform;
-            go.transform.Rotate(angle * i, 90, 0); // Rotate so the system emits upwards.
+            go.transform.Rotate(psSetup.projSpacing * i, 90, 0); // Rotate so the system emits upwards.
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
 
@@ -68,11 +61,12 @@ public class PsSpawner : MonoBehaviour
 
             var mainModule = system.main;
 
-            mainModule.startColor = color;
-            mainModule.startSize = size;
-            mainModule.startSpeed = speed;
-            mainModule.startLifetime = lifetime;
+            mainModule.startColor = prSetup.col;
+            mainModule.startSize = prSetup.size / 100;
+            mainModule.startSpeed = prSetup.speed;
+            mainModule.startLifetime = prSetup.lifetime;
             mainModule.maxParticles = 10000;
+
             //Local ermöglicht rotation und sinus scheiss und return mit forceoverlifetime aber macht auch, dass das partikelsistem dem boss folgt oder dem emitterr...
             mainModule.simulationSpace = ParticleSystemSimulationSpace.World;
 
@@ -109,23 +103,27 @@ public class PsSpawner : MonoBehaviour
             text.AddSprite(texture);
         }
 
-        InvokeRepeating("DoEmit", 0, firerate);
-        Invoke("StopEmitting", endEmittingTime);
-        Invoke("DestroyItself", endEmittingTime + destroyDelay);
+        InvokeRepeating("DoEmit", 0, 60 / psSetup.firerate);
+        Invoke("StopEmitting", psSetup.stopEmitting);
+        Invoke("DestroyItself", psSetup.stopEmitting + psSetup.destroyDelay);
 
         return true;
     }
 
     private void Update()
     {
-        if (followBoss)
+        if (psSetup.bossMov)
         {
             transform.position = bossTransform.position;
         }
-
-        if (rotation != 0)
+        else if (psSetup.mov != new Vector2()) 
         {
-            transform.Rotate(0, 0, rotation * Time.deltaTime);
+            transform.Translate(psSetup.mov);
+        }
+
+        if (psSetup.rotation != 0)
+        {
+            transform.Rotate(0, 0, psSetup.rotation * Time.deltaTime);
         }
     }
 
@@ -143,14 +141,14 @@ public class PsSpawner : MonoBehaviour
         foreach (Transform child in this.transform) {
             system = child.GetComponent<ParticleSystem>();
 
-
             // Any parameters we assign in emitParams will override the current system's when we call Emit.
             // Here we will override the start color and size.
             var emitParams = new ParticleSystem.EmitParams();
 
-            emitParams.startColor = color;
-            emitParams.startSize = size;
-            emitParams.startLifetime = lifetime;
+            emitParams.rotation = prSetup.rotation;
+            emitParams.startColor = prSetup.col;
+            emitParams.startSize = prSetup.size / 100;
+            emitParams.startLifetime = prSetup.lifetime;
             system.Emit(emitParams, 10);
             system.Play(); // Continue normal emissions
         }

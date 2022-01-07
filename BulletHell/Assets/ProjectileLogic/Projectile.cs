@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+
     private Vector2 moveDir;
     private float moveSpeed;
     private int projType;

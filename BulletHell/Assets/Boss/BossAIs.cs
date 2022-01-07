@@ -5,12 +5,10 @@ using UnityEngine;
 public class BossAIs
 {
 
-    private ProjectileHandler ph;
     private Boss boss;
 
     public void Setup(Boss boss) {
         this.boss = boss;
-        ph = new ProjectileHandler();
 
         switch (GameMaster.GM.currentLevel) {
             case 1:
@@ -24,7 +22,7 @@ public class BossAIs
 
     public void AI_Barge()
     {
-        FunctionTimer.Create(() => boss.NewMovementAndRotation(new Vector2(0, -3.5f), 1), 5);
+        FunctionTimer.Create(() => boss.NewMovementAndRotation(new Vector2(0, -3.5f), 1), 1);
         //boss.NewMovementAndRotation(new Vector2(0, -1.5f), 1);
 
     }

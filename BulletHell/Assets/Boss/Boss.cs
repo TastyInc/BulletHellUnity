@@ -14,6 +14,8 @@ public class Boss : MonoBehaviour
     private float rotation = 0;
 
     private BossAIs ai;
+    //private ProjectileHandler ph;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,9 @@ public class Boss : MonoBehaviour
 
         ai = new BossAIs();
         ai.Setup(this);
+
+        //ph = new ProjectileHandler();
+        //ph.Setup(this);
 
 
         //FunctionTimer.Create(() => NewMovement(new Vector2(0, -1.5f), 1), 0);
