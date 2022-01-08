@@ -6,25 +6,24 @@ public class ProjectileHandler : MonoBehaviour
 {
     public Material material;
     public Sprite texture;
-    public Boss boss;
     public ParticleSystem psPrefab;
+    public Boss boss;
 
 
     //ZWISCHEN DAS UND PsSPAWNER
     private PsBuilder builder;
 
 
-    public void Setup(Boss boss)
-    {
-        this.boss = boss;
-
-    }
-
-
-
     // Start is called before the first frame update
     void Start()
     {
+        builder = new PsBuilder();
+        builder.boss = boss;
+        builder.material = material;
+        builder.texture = texture;
+        builder.psPrefab = psPrefab;
+        builder.trans = gameObject.transform;
+
         switch (GameMaster.GM.currentLevel)
         {
             case 1:
@@ -58,35 +57,39 @@ public class ProjectileHandler : MonoBehaviour
     }
 
     public void HandleProjectiles_Barge() {
-        FunctionTimer.Create(() => CreateNewParticleSpawner(new ProjSetup(35, 16, GameCol.Grey7), new PsSetup(600, 16, 20, 0.5f, 3)), 7.2f);
-        FunctionTimer.Create(() => CreateNewParticleSpawner(new ProjSetup(50, 12, GameCol.Grey5), new PsSetup(125, 10, 12, 29, 5)), 7.5f);
-        FunctionTimer.Create(() => CreateNewParticleSpawner(new ProjSetup(60, 10, GameCol.Grey3), new PsSetup(125, 10, 30, 13, 5)), 23.5f);
+
+        FunctionTimer.Create(() => builder.CreateNormalPS(new ProjSetup(35, 16, GameCol.Grey7), new PsSetup(600, 16, 20, 0.5f, 3)), 7.2f);
+
+        FunctionTimer.Create(() => builder.CreateRotatingPS(new ProjSetup(50, 10, GameCol.Grey5), new PsSetup(125, 12, 15, 29, 5)), 7.5f);
+        FunctionTimer.Create(() => builder.CreateRotatingPS(new ProjSetup(50, 10, GameCol.Grey5), new PsSetup(125, 12, 15, 29, 5), 15), 7.77f);
+
+        FunctionTimer.Create(() => builder.CreateNormalPS(new ProjSetup(60, 12, GameCol.Grey3), new PsSetup(125, 12, 30, 13, 5)), 23.5f);
 
 
     }
 
-    bool CreateNewParticleSpawner(ProjSetup prSetup, PsSetup psSetup) {
+    //bool CreateNewParticleSpawner(ProjSetup prSetup, PsSetup psSetup) {
 
-        GameObject go = new GameObject("Particle Spawner");
-        go.transform.parent = gameObject.transform;
-        go.transform.localPosition = gameObject.transform.localPosition;
-        PsSpawner spawner = go.AddComponent<PsSpawner>();
+    //    GameObject go = new GameObject("Particle Spawner");
+    //    go.transform.parent = gameObject.transform;
+    //    go.transform.localPosition = gameObject.transform.localPosition;
+    //    PsSpawner spawner = go.AddComponent<PsSpawner>();
 
-        //TODO NOCH SCHUAEEEEEEEEEn
-        spawner.material = material;
-        spawner.bossTransform = boss.transform;
+    //    //TODO NOCH SCHUAEEEEEEEEEn
+    //    spawner.material = material;
+    //    spawner.bossTransform = boss.transform;
 
-        spawner.texture = texture;
+    //    spawner.texture = texture;
 
-        spawner.psPrefab = psPrefab;
+    //    spawner.psPrefab = psPrefab;
 
-        spawner.prSetup = prSetup;
-        spawner.psSetup = psSetup;
+    //    spawner.prSetup = prSetup;
+    //    spawner.psSetup = psSetup;
 
-        spawner.Summon();
+    //    spawner.Summon();
 
-        return true;
-    }
+    //    return true;
+    //}
 
 
     // Update is called once per frame

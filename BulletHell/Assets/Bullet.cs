@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
 
-        Debug.Log(gameObject.transform.position.x);
+        //Debug.Log(gameObject.transform.position.x);
 
         //float timeAlive = Time.timeSinceLevelLoad - initTime;
 

@@ -15,8 +15,17 @@ public class PsSpawner : MonoBehaviour
     public Transform bossTransform;
 
     public ParticleSystem psPrefab;
+    
+    //Rotation PS
+    public bool rotating = false;
+    public float rotOffset = 0;
+
+    //Laser PS
+    public bool laser = false;
+    public float warningTime = 0;
 
     private ParticleSystem system;
+
 
     private void Start()
     {
@@ -43,7 +52,7 @@ public class PsSpawner : MonoBehaviour
             var go = new GameObject("Particle System");
             go.layer = 8;
             go.transform.parent = transform;
-            go.transform.Rotate(psSetup.projSpacing * i, 90, 0); // Rotate so the system emits upwards.
+            go.transform.Rotate(psSetup.projSpacing * i + rotOffset, 90, 0); // Rotate so the system emits upwards.
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
 
@@ -69,7 +78,19 @@ public class PsSpawner : MonoBehaviour
             mainModule.maxParticles = 10000;
 
             //Local ermöglicht rotation und sinus scheiss und return mit forceoverlifetime aber macht auch, dass das partikelsistem dem boss folgt oder dem emitterr...
-            mainModule.simulationSpace = ParticleSystemSimulationSpace.World;
+            
+
+            if (rotating)
+            {
+                mainModule.simulationSpace = ParticleSystemSimulationSpace.Local;
+            }
+            else
+            {
+                mainModule.simulationSpace = ParticleSystemSimulationSpace.World;
+            }
+
+
+
 
             var emission = system.emission;
             emission.enabled = false;
@@ -94,6 +115,7 @@ public class PsSpawner : MonoBehaviour
             collision.sendCollisionMessages = true;
             collision.collidesWith = mask;
             collision.enableDynamicColliders = true;
+
             collision.type = ParticleSystemCollisionType.World;
             collision.mode = ParticleSystemCollisionMode.Collision2D;
             collision.lifetimeLoss = 50;
