@@ -26,6 +26,11 @@ public class ProjSetup
     public Color col = Color.black;
 
     /// <summary>
+    /// Collides with player?
+    /// </summary>
+    public bool colPlayer = false;
+
+    /// <summary>
     /// wird für Partikelsystem und Projektilbuilder gebraucht
     /// </summary>
     /// <param name="size"></param>
@@ -39,20 +44,22 @@ public class ProjSetup
         this.col = col;
     }
 
-    public ProjSetup(float size, float speed, Color col, int rotation = 0, float lifetime = 10)
+    public ProjSetup(float size, float speed, Color col, int rotation = 0, float lifetime = 10, bool colPlayer = false)
     {
         this.size = size;
         this.speed = speed;
         this.rotation = rotation;
         this.col = col;
         this.lifetime = lifetime;
+        this.colPlayer = colPlayer;
 
     }
 
-    public ProjSetup(float size, float speed, Color col, int rotation) {
+    public ProjSetup(float size, float speed, Color col, int rotation, bool colPlayer = false) {
         this.size = size;
         this.speed = speed;
         this.rotation = rotation;
         this.col = col;
+        this.colPlayer = colPlayer;
     }
 }

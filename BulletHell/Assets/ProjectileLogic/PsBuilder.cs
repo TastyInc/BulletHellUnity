@@ -44,7 +44,7 @@ public class PsBuilder : MonoBehaviour
     {
         PsSpawner spawner = PsSetup(prSetup, psSetup);
 
-        spawner.rotating = true;
+        spawner.isRotating = true;
         spawner.rotOffset = rotOffset;
 
         spawner.Summon();
@@ -52,11 +52,13 @@ public class PsBuilder : MonoBehaviour
         return true;
     }
 
-    public bool CreateLaserPS(ProjSetup prSetup, PsSetup psSetup, float warningTime)
+    public bool CreateLaserPS(ProjSetup preLaser, ProjSetup prSetup, PsSetup psSetup, float warningTime)
     {
         PsSpawner spawner = PsSetup(prSetup, psSetup);
 
-        spawner.laser = true;
+        spawner.prLaser = prSetup;
+
+        spawner.isLaser = true;
         spawner.warningTime = warningTime;
 
         spawner.Summon();

@@ -58,6 +58,12 @@ public class ProjectileHandler : MonoBehaviour
 
     public void HandleProjectiles_Barge() {
 
+
+        FunctionTimer.Create(() => builder.CreateLaserPS(new ProjSetup(10, 12, Color.white), new ProjSetup(60, 12, GameCol.Grey3), new PsSetup(125, 1, 0, 13, 5), 5), 2);
+
+        FunctionTimer.Create(() => builder.CreateNormalPS(new ProjSetup(60, 12, GameCol.Grey3), new PsSetup(125, 12, 30, 13, 5)), 23.5f);
+
+
         FunctionTimer.Create(() => builder.CreateNormalPS(new ProjSetup(35, 16, GameCol.Grey7), new PsSetup(600, 16, 20, 0.5f, 3)), 7.2f);
 
         FunctionTimer.Create(() => builder.CreateRotatingPS(new ProjSetup(50, 10, GameCol.Grey5), new PsSetup(125, 12, 15, 29, 5)), 7.5f);

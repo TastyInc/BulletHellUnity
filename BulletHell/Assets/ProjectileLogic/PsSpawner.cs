@@ -17,12 +17,13 @@ public class PsSpawner : MonoBehaviour
     public ParticleSystem psPrefab;
     
     //Rotation PS
-    public bool rotating = false;
+    public bool isRotating = false;
     public float rotOffset = 0;
 
     //Laser PS
-    public bool laser = false;
+    public bool isLaser = false;
     public float warningTime = 0;
+    public ProjSetup prLaser;
 
     private ParticleSystem system;
 
@@ -52,9 +53,9 @@ public class PsSpawner : MonoBehaviour
             var go = new GameObject("Particle System");
             go.layer = 8;
             go.transform.parent = transform;
-            go.transform.Rotate(psSetup.projSpacing * i + rotOffset, 90, 0); // Rotate so the system emits upwards.
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.localPosition = new Vector3(0, 0, 0); //Position relative to Boss/ParticleSpawner
+            go.transform.Rotate(psSetup.projSpacing * i + rotOffset, 90, 0); // Rotate so the system emits upwards.
 
             system = go.AddComponent<ParticleSystem>();
 
@@ -69,31 +70,17 @@ public class PsSpawner : MonoBehaviour
 
             //var mainn = ProjectilePreset.GetProjectilePreset(color, size, speed, 10000);
 
-            var mainModule = system.main;
+            SetMain(system.main);
 
-            mainModule.startColor = prSetup.col;
-            mainModule.startSize = prSetup.size / 100;
-            mainModule.startSpeed = prSetup.speed;
-            mainModule.startLifetime = prSetup.lifetime;
-            mainModule.maxParticles = 10000;
+            SetEmission(system.emission);
 
-            //Local ermöglicht rotation und sinus scheiss und return mit forceoverlifetime aber macht auch, dass das partikelsistem dem boss folgt oder dem emitterr...
-            
+            SetShape(system.shape);
 
-            if (rotating)
+            if (!isLaser)
             {
-                mainModule.simulationSpace = ParticleSystemSimulationSpace.Local;
-            }
-            else
-            {
-                mainModule.simulationSpace = ParticleSystemSimulationSpace.World;
+                SetCollision(system.collision);
             }
 
-
-
-
-            var emission = system.emission;
-            emission.enabled = false;
 
             //Macht das Partikel zurück kommen...
             //var fol = system.forceOverLifetime;
@@ -102,23 +89,7 @@ public class PsSpawner : MonoBehaviour
             //fol.x = Mathf.Cos(angle) * (speed / lifetime) * (-2);
             //fol.y = Mathf.Sin(angle) * (speed / lifetime) * (-2);
 
-            var shape = system.shape;
-            shape.enabled = false;
-            shape.shapeType = ParticleSystemShapeType.Sprite;
-            shape.sprite = null;
-            shape.alignToDirection = true;
 
-            LayerMask mask = LayerMask.GetMask("Player");
-
-            var collision = system.collision;
-            collision.enabled = true;
-            collision.sendCollisionMessages = true;
-            collision.collidesWith = mask;
-            collision.enableDynamicColliders = true;
-
-            collision.type = ParticleSystemCollisionType.World;
-            collision.mode = ParticleSystemCollisionMode.Collision2D;
-            collision.lifetimeLoss = 50;
 
             var text = system.textureSheetAnimation;
             text.mode = ParticleSystemAnimationMode.Sprites;
@@ -126,11 +97,75 @@ public class PsSpawner : MonoBehaviour
             text.AddSprite(texture);
         }
 
-        InvokeRepeating("DoEmit", 0, 60 / psSetup.firerate);
+        if (isLaser)
+        {
+            Invoke("LaserActivation", warningTime);
+        }
+        else
+        {
+            InvokeRepeating("DoEmit", 0, 60 / psSetup.firerate);
+        }
+
         Invoke("StopEmitting", psSetup.stopEmitting);
         Invoke("DestroyItself", psSetup.stopEmitting + psSetup.destroyDelay);
 
         return true;
+    }
+
+    private void SetShape(ParticleSystem.ShapeModule shape) {
+        shape.enabled = false;
+        shape.shapeType = ParticleSystemShapeType.Sprite;
+        shape.sprite = null;
+        shape.alignToDirection = true;
+    }
+
+    private void SetCollision(ParticleSystem.CollisionModule col){
+
+        LayerMask mask = LayerMask.GetMask("Player");
+
+        col.enabled = true;
+        col.sendCollisionMessages = true;
+        col.collidesWith = mask;
+        col.enableDynamicColliders = true;
+        col.type = ParticleSystemCollisionType.World;
+        col.mode = ParticleSystemCollisionMode.Collision2D;
+        col.lifetimeLoss = 50;
+    }
+
+
+    private void SetMain(ParticleSystem.MainModule main)
+    {
+        main.startColor = prSetup.col;
+        main.startSize = prSetup.size / 100;
+        main.startSpeed = prSetup.speed;
+        main.startLifetime = prSetup.lifetime;
+        main.maxParticles = 10000;
+
+
+        //Local ermöglicht rotation und sinus scheiss und return mit forceoverlifetime aber macht auch, dass das partikelsistem dem boss folgt oder dem emitterr...
+        if (isRotating)
+        {
+            main.simulationSpace = ParticleSystemSimulationSpace.Local;
+        }
+        else
+        {
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+        }
+
+    }
+
+    private void SetEmission(ParticleSystem.EmissionModule emission) {
+        if (isLaser)
+        {
+            emission.enabled = true;
+            emission.rateOverTime = 100;
+        }
+        else
+        {
+            emission.enabled = false;
+        }
+
+
     }
 
     private void Update()
@@ -177,5 +212,16 @@ public class PsSpawner : MonoBehaviour
             system.Emit(emitParams, 10);
             system.Play(); // Continue normal emissions
         }
+    }
+
+    void LaserActivation()
+    {
+        var main = system.main;
+        main.startColor = prLaser.col;
+        main.startSize = prLaser.size / 100;
+        main.startSpeed = prLaser.speed;
+        main.startLifetime = prLaser.lifetime;
+
+        SetCollision(system.collision);
     }
 }
